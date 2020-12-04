@@ -1,5 +1,8 @@
 class User < ApplicationRecord
     
+    #reference each object of the class and downcase it before saving
+    before_save { self.email = email.downcase }
+    
     #create a one to many relationship between articles
     has_many :articles
     
