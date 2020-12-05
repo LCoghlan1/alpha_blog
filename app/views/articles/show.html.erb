@@ -17,9 +17,11 @@
                     <!-- method keeps format it was typed in -->
                     <div class="card-text"><%= simple_format(@article.description) %></div>
                     
-                    <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-primary" %>
-                    <%= link_to "Delete", article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
-                    <%= link_to "All articles", articles_path, class: "btn btn-outline-secondary" %>
+                    <% if logged_in? && @article.user == current_user %>
+                      <%= link_to "Edit", edit_article_path(@article), class: "btn btn-outline-primary" %>
+                      <%= link_to "Delete", article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+                    <% end %>
+                    <%= link_to "Return to all articles", articles_path, class: "btn btn-outline-secondary" %>
                   </div>
                   <div class="card-footer text-muted">
                     <small>Created <%= time_ago_in_words(@article.created_at) %> ago,

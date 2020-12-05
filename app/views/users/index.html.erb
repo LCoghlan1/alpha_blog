@@ -20,7 +20,9 @@
                     <!--to get gramatically correct word when number of articles is presented-->
                   <p class="card-text"><%= pluralize(user.articles.count, "article") %></p>
                   <%= link_to "View Profile", user, class: "btn btn-outline-primary" %>
-                  <%= link_to "Edit Profile", edit_user_path(user), class: "btn btn-outline-secondary" %>
+                  <% if logged_in? && user == current_user %>
+                    <%= link_to "Edit Profile", edit_user_path(user), class: "btn btn-outline-secondary" %>
+                  <% end %>
                 </div>
                 <div class="card-footer text-muted">
                   <small>Joined <%= time_ago_in_words(user.created_at) %> ago</small>
