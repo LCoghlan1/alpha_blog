@@ -3,8 +3,8 @@ class User < ApplicationRecord
     #reference each object of the class and downcase it before saving
     before_save { self.email = email.downcase }
     
-    #create a one to many relationship between articles
-    has_many :articles
+    #create a one to many relationship between articles - dependent will destroy articles related to them
+    has_many :articles, dependent: :destroy
     
     #ensure username is present, unique (incl. case sensitivity) and of certain length before a user object is saved to db
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: {minimum:3, maximum: 25}

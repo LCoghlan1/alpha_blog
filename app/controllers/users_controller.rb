@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
    
-   before_action :set_user, only: [:show, :edit, :update]
+   before_action :set_user, only: [:show, :edit, :update, :destroy]
    before_action :require_user, only: [:edit, :update]
    # Important this is after require_user as above code needs to run first
    before_action :require_same_user, only: [:edit, :update, :destroy]
@@ -43,6 +43,14 @@ class UsersController < ApplicationController
        else
            render 'new'
        end
+   end
+   
+   def destroy
+       @user.destroy
+       # App will throw an error if this is not included
+       session[:user_id] = nil
+       flash[:notice] = "Account and all associated articles deleted"
+       redirect_to root_path
    end
     
 end
