@@ -38,7 +38,7 @@ class UsersController < ApplicationController
        if @user.save
            #log user in
            session[:user_id] = @user.id
-           flash[:notice] = "Welcome to Luke's Blog #{@user.username}, you're signed up n' stuff. Go git t'articlin"
+           flash[:notice] = "Welcome to Luke's Blog, #{@user.username}, you're signed up n' stuff. Go git t'articlin"
            redirect_to articles_path
        else
            render 'new'
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
    def destroy
        @user.destroy
        # App will throw an error if this is not included
-       session[:user_id] = nil
+       session[:user_id] = nil if @user == current_user
        flash[:notice] = "Account and all associated articles deleted"
        redirect_to root_path
    end
@@ -66,8 +66,8 @@ def set_user
 end
 
 def require_same_user
-   if current_user != @user
-    flash[:alert] = "You can only edit your own account ya dope"
-    redirect_to @user
+   if current_user != @user && !current_user.admin?
+    flash[:alert] = "You can only edit or delete your own account ya dope"
+    redirect_to root_path
    end
 end
